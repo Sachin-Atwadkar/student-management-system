@@ -18,13 +18,11 @@ It is created for practicing:
 - Update Student
 - Delete Student
 - Menu Driven Program
-- 
+  
 ## Technologies Used
 - Python
 - MySQL 
 - OOP Concepts
-
-- 
 
 ## Author
 BCA Graduate | Python Learner
