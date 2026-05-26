@@ -1,117 +1,95 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import mysql.connector
 
-class Student {
-    int id;
-    String name;
+# ===== DATABASE CONNECTION =====
+conn = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="Sachin@2004",   # change this
+    database="college"
+)
 
-    Student(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-}
+cursor = conn.cursor()
 
-public class Main {
-    public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        ArrayList<Student> students = new ArrayList<>();
+# ===== FUNCTIONS =====
 
-        while (true) {
-            System.out.println("\n===== STUDENT MANAGEMENT SYSTEM =====");
-            System.out.println("1. Add Student");
-            System.out.println("2. View Students");
-            System.out.println("3. Delete Student");
-            System.out.println("4. Update Student");
-            System.out.println("5. Exit");
-            System.out.print("Choose option: ");
+def add_student():
+    name = input("Enter name: ")
+    age = int(input("Enter age: "))
+    city = input("Enter city: ")
 
-            int choice = sc.nextInt();
+    sql = "INSERT INTO students (name, age, city) VALUES (%s, %s, %s)"
+    values = (name, age, city)
 
-            // ADD STUDENT
-            if (choice == 1) {
-                System.out.print("Enter Student ID: ");
-                int id = sc.nextInt();
+    cursor.execute(sql, values)
+    conn.commit()
 
-                sc.nextLine();
+    print("Student added successfully!")
 
-                System.out.print("Enter Student Name: ");
-                String name = sc.nextLine();
 
-                students.add(new Student(id, name));
-                System.out.println("Student Added Successfully!");
+def view_students():
+    cursor.execute("SELECT * FROM students")
+    results = cursor.fetchall()
 
-            }
+    print("\n===== STUDENT LIST =====")
+    for row in results:
+        print(row)
 
-            // VIEW STUDENTS
-            else if (choice == 2) {
-                System.out.println("\n--- Student List ---");
 
-                if (students.isEmpty()) {
-                    System.out.println("No students found!");
-                } else {
-                    for (Student s : students) {
-                        System.out.println("ID: " + s.id + " | Name: " + s.name);
-                    }
-                }
-            }
+def update_student():
+    student_id = int(input("Enter student ID to update: "))
+    name = input("Enter new name: ")
+    age = int(input("Enter new age: "))
+    city = input("Enter new city: ")
 
-            // DELETE STUDENT
-            else if (choice == 3) {
-                System.out.print("Enter Student ID to delete: ");
-                int id = sc.nextInt();
+    sql = "UPDATE students SET name=%s, age=%s, city=%s WHERE id=%s"
+    values = (name, age, city, student_id)
 
-                boolean found = false;
+    cursor.execute(sql, values)
+    conn.commit()
 
-                for (int i = 0; i < students.size(); i++) {
-                    if (students.get(i).id == id) {
-                        students.remove(i);
-                        System.out.println("Student Deleted!");
-                        found = true;
-                        break;
-                    }
-                }
+    print("Student updated successfully!")
 
-                if (!found) {
-                    System.out.println("Student not found!");
-                }
-            }
 
-            // UPDATE STUDENT
-            else if (choice == 4) {
-                System.out.print("Enter Student ID to update: ");
-                int id = sc.nextInt();
+def delete_student():
+    student_id = int(input("Enter student ID to delete: "))
 
-                sc.nextLine();
+    sql = "DELETE FROM students WHERE id=%s"
+    values = (student_id,)
 
-                boolean found = false;
+    cursor.execute(sql, values)
+    conn.commit()
 
-                for (Student s : students) {
-                    if (s.id == id) {
-                        System.out.print("Enter new name: ");
-                        s.name = sc.nextLine();
-                        System.out.println("Student Updated!");
-                        found = true;
-                        break;
-                    }
-                }
+    print("Student deleted successfully!")
 
-                if (!found) {
-                    System.out.println("Student not found!");
-                }
-            }
 
-            // EXIT
-            else if (choice == 5) {
-                System.out.println("Exiting...");
-                break;
-            }
+# ===== MENU =====
 
-            else {
-                System.out.println("Invalid choice!");
-            }
-        }
+while True:
+    print("\n===== STUDENT MANAGEMENT SYSTEM =====")
+    print("1. Add Student")
+    print("2. View Students")
+    print("3. Update Student")
+    print("4. Delete Student")
+    print("5. Exit")
 
-        sc.close();
-    }
-}
+    choice = input("Enter choice: ")
+
+    if choice == "1":
+        add_student()
+
+    elif choice == "2":
+        view_students()
+
+    elif choice == "3":
+        update_student()
+
+    elif choice == "4":
+        delete_student()
+
+    elif choice == "5":
+        print("Exiting system...")
+        break
+
+    else:
+        print("Invalid choice!")
