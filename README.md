@@ -1,19 +1,30 @@
 # student-management-system
-Java console project for student management
+Python project for managing student records using CRUD operations.
 
 ## Description
-Java console project for managing student records using CRUD operations.
+This is a console-based Student Management System developed using Python.  
+The project performs CRUD operations such as adding, viewing, updating, and deleting student records.
+
+It is created for practicing:
+- Python programming
+- Functions
+- OOP concepts
+- Database operations
+- CRUD applications
 
 ## Features
 - Add Student
 - View Students
 - Update Student
 - Delete Student
-
+- Menu Driven Program
+- 
 ## Technologies Used
-- Java
+- Python
+- MySQL 
 - OOP Concepts
-- ArrayList
+
+- 
 
 ## Author
-BCA Graduate | Java Learner
+BCA Graduate | Python Learner
